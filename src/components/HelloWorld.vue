@@ -8,6 +8,10 @@
     <button @click.prevent="joinroom(roomjoin)">Join Room</button>
     </p>
 
+    <h2 v-if="roomname">Your Room is: {{ roomname }} <button @click.prevent="leaveroom(roomname)">Leave</button></h2>
+
+    <button @click.prevent="speak">Speak</button>
+
     <h1>{{ totalCount }}</h1>
     <button @click.prevent="clickcounter">Click Counter</button>
 
@@ -38,7 +42,8 @@ export default {
     return {
       isConnected: false,
       totalCount: 0,
-      users: []
+      users: [],
+      roomname: ''
     }
   },
 
@@ -57,6 +62,17 @@ export default {
     },
     roominfo(data) {
       console.log(data)
+    },
+    roomname(data) {
+      this.roomname = data
+    },
+    receiveroom(data) {
+      console.log(data)
+    },
+    leftroom(data) {
+      if (data === 'success') {
+        this.roomname = ''
+      }
     }
   },
 
@@ -72,11 +88,25 @@ export default {
       //generate a random number
       const randomnumber = Math.floor((Math.random() * (9999 - 1000)) + 1000);
       console.log(randomnumber);
-      this.$socket.emit('createroom', 'ROOM'+randomnumber);
+      const roomname = 'R'+randomnumber
+      this.$socket.emit('createroom', roomname);
+      this.roomname = roomname
     },
     joinroom(roomjoin) {
       console.log(roomjoin);
-      this.$socket.emit('joinroom', roomjoin);
+      const room = roomjoin.toUpperCase();
+      this.$socket.emit('joinroom', room);
+    },
+    leaveroom(room) {
+      console.log("Leaving room:", room);
+      this.$socket.emit('leaveroom', room);
+    },
+    speak() {
+      const msg = {};
+      msg.room = this.roomname;
+      msg.msg = "Cake";
+      console.log(msg);
+      this.$socket.emit('tellroom',msg);
     }
   }
 }
