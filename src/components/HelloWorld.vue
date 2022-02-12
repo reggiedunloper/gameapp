@@ -1,8 +1,7 @@
 <template>
   <div class="hello">
 
-    <input v-model="roomname" >
-    <button @click.prevent="createroom(roomname)">Create Room</button>
+    <button @click.prevent="createroom()">Create Room</button>
 
     <p>
     <input v-model="roomjoin" >
@@ -68,9 +67,12 @@ export default {
     startgame() {
       this.$socket.emit('startgame', 'new game start');
     },
-    createroom(roomname) {
-      console.log(roomname);
-      this.$socket.emit('createroom', roomname);
+    // create a new randomly generated room
+    createroom() {
+      //generate a random number
+      const randomnumber = Math.floor((Math.random() * (9999 - 1000)) + 1000);
+      console.log(randomnumber);
+      this.$socket.emit('createroom', 'ROOM'+randomnumber);
     },
     joinroom(roomjoin) {
       console.log(roomjoin);
