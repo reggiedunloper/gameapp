@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import uiButton from '../ui/Button'
+import uiButton from '../components/ui/Button'
 export default {
   components: {
     uiButton
@@ -32,6 +32,13 @@ export default {
       const roomname = 'R'+randomnumber
       this.$socket.emit('createroom', roomname);
       this.roomname = roomname
+      //go to waiting room
+      this.$router.push({
+        name: 'Waiting Room',
+        params: {
+          room: this.roomname
+        }
+      })
     }
   },
   sockets: {
