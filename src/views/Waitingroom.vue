@@ -48,6 +48,15 @@ export default {
     },
     startGame () {
       console.log("STARTING GAME");
+      socket.emit('startgame', this.room);
+    },
+    movetoGameView() {
+      this.$router.push({
+        name: 'Game',
+        params: {
+          room: this.room
+        }
+      })
     }
   },
   created () {
@@ -58,6 +67,10 @@ export default {
       setTimeout(() => {
         this.users = data;
       }, 0)
+    }),
+    socket.on('startgame', (data) => {
+      console.log(data);
+      this.movetoGameView();
     })
   }
 }
