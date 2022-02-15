@@ -53,7 +53,11 @@ export default {
   created () {
     socket.on('roomusers', (data) => {
       console.log("Users:", data);
-      this.users = data;
+      // slight delay ensures we get the players joined properly
+      // this should probably be stored in a vue store
+      setTimeout(() => {
+        this.users = data;
+      }, 0)
     })
   }
 }
