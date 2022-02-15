@@ -6,7 +6,9 @@
     <section class="w-full p-4">
       <h2>Players Joined:</h2>
       <ul>
-        <li v-for="(user,index) of users" :key=index>
+        <li v-for="(user,index) of users" :key=index
+          class="py-3 border-solid border-b"
+          >
           {{ user.id }}
         </li>
       </ul>
@@ -19,7 +21,6 @@
         Cancel Game
       </uiButton>
     </section>
-
   </main>
 </template>
 <script>
